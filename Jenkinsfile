@@ -18,25 +18,8 @@ pipeline {
 		
 		buildDiscarder(logRotator(numToKeepStr: pipelineCommon.OPTIONS_BUILD_DISCARDER_LOG_ROTATOR_NUM_TO_KEEP_STR))
 	}
-//	environment {
-		// We use this dummy environment variable to load all the properties from the designated file into environment variable (per branch)
-//		X_EFRAT_ECHO_DUMMY_ENV_VAR = pipelineCommon.assimilateEnvironmentVariables()
-
-		// Obtain the access token Jenkins uses to connect to GitHub (using a Jenkins credentials ID)
-//		GITHUB_ACCESS_TOKEN = credentials('github-demo4echo-access-token-for-reckon-gradle-plugin-id')
-//	}
 	stages {
-//		stage('\u2776 setup \u2728') {
-//			steps {
-//				sh 'whoami'
-
-//				sh "cp -ar ./${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}/.docker /root/.docker"
-//				sh "cp -ar ./${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}/.kube /root/.kube"
-//				sh "cp -ar ./${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}/.gradle/gradle.properties /root/.gradle/gradle.properties"
-//				sh "cp -ar ./${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}/.gradle/init.gradle /root/.gradle/init.gradle"
-//			}
-//		}
-		stage('\u2777 Mark Service For Release \u2728') {
+		stage('\u2776 Mark Service For Release \u2728') {
  			failFast true
 			parallel {			
 				stage ('Mark echobe For Release') {	
@@ -71,10 +54,6 @@ pipeline {
 	post {
 		always {
 			echo 'One way or another, I have finished'
-
-			// Do some cleanup
-//			sh "rm /root/.gradle/gradle.properties"
-//			sh "rm /root/.gradle/init.gradle"
 		}
 		success {
 			echo 'I succeeeded!'
