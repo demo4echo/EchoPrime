@@ -22,7 +22,7 @@ pipeline {
 		stage('\u2776 Mark Service For Release \u2728') {
  			failFast true
 			parallel {			
-				stage ('Mark echobe For Release') {	
+				stage ('\u2776.\u2776 Mark echobe For Release \u2728') {	
 					steps {
 						build (
 							job: "echobe/${env.BRANCH_NAME}",
@@ -35,7 +35,7 @@ pipeline {
 						)
 					}
 				}
-				stage ('Mark echofe For Release') {	
+				stage ('\u2776.\u2777 Mark echofe For Release \u2728') {	
 					steps {
 						build (
 							job: "echofe/${env.BRANCH_NAME}",
