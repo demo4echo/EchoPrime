@@ -55,9 +55,9 @@ pipeline {
 						build (
 							job: "echobe/${env.BRANCH_NAME}",
 							parameters: [
-								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: 'Jenkinsfile4Release'),
-								string (name: 'TARGET_RECKON_SCOPE', value: 'major'),
-								string (name: 'TARGET_RECKON_STAGE', value: 'final')
+								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
+								string (name: 'TARGET_RECKON_SCOPE', value: "${params.TARGET_RECKON_SCOPE}"),
+								string (name: 'TARGET_RECKON_STAGE', value: "${params.TARGET_RECKON_STAGE}")
                 		],
 							wait: true
 						)
@@ -68,9 +68,9 @@ pipeline {
 						build (
 							job: "echofe/${env.BRANCH_NAME}",
 							parameters: [
-								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: 'Jenkinsfile4Release'),
-								string (name: 'TARGET_RECKON_SCOPE', value: 'major'),
-								string (name: 'TARGET_RECKON_STAGE', value: 'final')
+								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
+								string (name: 'TARGET_RECKON_SCOPE', value: "${params.TARGET_RECKON_SCOPE}"),
+								string (name: 'TARGET_RECKON_STAGE', value: "${params.TARGET_RECKON_STAGE}")
                 		],
 							wait: true
 						)
