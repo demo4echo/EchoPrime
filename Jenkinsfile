@@ -41,7 +41,7 @@ pipeline {
 			parallel {			
 				stage ('Mark echobe For Release') {	
 					steps {
-						build
+						build (
 							job: "echobe/${env.BRANCH_NAME}",
 							parameters: [
 								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: 'Jenkinsfile4Release'),
@@ -49,12 +49,12 @@ pipeline {
 								string (name: 'TARGET_RECKON_STAGE', value: 'final')
                 		],
 							wait: true
-						}
+						)
 					}
 				}
 				stage ('Mark echofe For Release') {	
 					steps {
-						build
+						build (
 							job: "echofe/${env.BRANCH_NAME}",
 							parameters: [
 								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: 'Jenkinsfile4Release'),
@@ -62,7 +62,7 @@ pipeline {
 								string (name: 'TARGET_RECKON_STAGE', value: 'final')
                 		],
 							wait: true
-						}
+						)
 					}
 				}
 			}
