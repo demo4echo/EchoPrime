@@ -71,6 +71,16 @@ pipeline {
 				echo "Within Tiran with the following desiganted version: ${params.DESIGNATED_VERSION}"
 			}			
 		}
+		stage ('Golan') {
+			when { 
+				expression { 
+					params.DESIGNATED_VERSION.trim().isEmpty() == true 
+				} 
+			}
+			steps {
+				echo "Within Golan with the following desiganted version: ${params.DESIGNATED_VERSION}"
+			}			
+		}
 		/**
 		stage('\u2776 Mark Service For Release \u2728') {
  			failFast true
