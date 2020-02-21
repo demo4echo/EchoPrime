@@ -64,7 +64,7 @@ pipeline {
 		stage ('Tiran') {
 			when { 
 				expression { 
-					params.DESIGNATED_VERSION.trim().isBlank() == false 
+					params.DESIGNATED_VERSION.trim().isEmpty() == false 
 				} 
 			}
 			steps {
