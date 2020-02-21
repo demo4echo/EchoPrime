@@ -47,7 +47,7 @@ pipeline {
 		)
 		validatingString (
 			name: 'DESIGNATED_VERSION',
-//			defaultValue: pipelineCommon.PARAMS_DESIGNATED_VERSION_DEFAULT_VALUE,
+			defaultValue: pipelineCommon.PARAMS_DESIGNATED_VERSION_DEFAULT_VALUE,
 			regex: pipelineCommon.PARAMS_DESIGNATED_VERSION_REG_EXP,
 			failedValidationMessage: "Validation of designated version failed!",
 			description: """
