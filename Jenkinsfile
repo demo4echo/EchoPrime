@@ -45,8 +45,33 @@ pipeline {
 			],
 			description: 'The desired reckon stage to use in the build'
 		)
+		validatingString (
+			name: 'DESIGNATED_VERSION',
+			defaultValue: pipelineCommon.PARAMS_DESIGNATED_VERSION_DEFAULT_VALUE,
+			regex: pipelineCommon.PARAMS_DESIGNATED_VERSION_REG_EXP,
+			failedValidationMessage: "Validation of designated version failed!",
+			description: """
+			The desiganted (desired) version to be used.
+			Notes:
+			------
+			1. The input given must comply with 'Semantic Versioning 2.0.0' (https://semver.org/) with regards to: <MAJOR>.<MINOR>.<PATCH>
+			2. The version supplied must be higher than any existing version (tag) in the target repo(s)
+			3. This will void the use of the 'TARGET_RECKON_SCOPE' and 'TARGET_RECKON_STAGE' parameters!
+			"""
+		)
 	}	
 	stages {
+		stage ('Tiran') {
+			when { 
+				expression { 
+					params.DESIGNATED_VERSION.trim().isBlank() == false 
+				} 
+			}
+			steps {
+				echo "Within Tiran with the following desiganted version: ${params.DESIGNATED_VERSION}"
+			}			
+		}
+		/**
 		stage('\u2776 Mark Service For Release \u2728') {
  			failFast true
 			parallel {			
@@ -78,6 +103,7 @@ pipeline {
 				}
 			}
 		}
+		*/
 	}
 	post {
 		always {
