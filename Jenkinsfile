@@ -68,7 +68,7 @@ pipeline {
 				} 
 			}
 			steps {
-				echo "Within Tiran with the following desiganted version: ${params.DESIGNATED_VERSION}"
+				echo "Within Tiran with the following desiganted version: [${params.DESIGNATED_VERSION}]"
 			}			
 		}
 		stage ('Golan') {
@@ -78,7 +78,7 @@ pipeline {
 				} 
 			}
 			steps {
-				echo "Within Golan with the following desiganted version: ${params.DESIGNATED_VERSION}"
+				echo "Within Golan with the following desiganted version: [${params.DESIGNATED_VERSION}]"
 			}			
 		}
 		/**
