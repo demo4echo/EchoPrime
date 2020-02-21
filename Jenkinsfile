@@ -61,28 +61,12 @@ pipeline {
 		)
 	}	
 	stages {
-		stage ('Tiran') {
-			when { 
-				expression { 
-					params.DESIGNATED_VERSION.trim().isEmpty() == false 
-				} 
-			}
-			steps {
-				echo "Within Tiran with the following desiganted version: [${params.DESIGNATED_VERSION}]"
-			}			
-		}
-		stage ('Golan') {
+		stage('\u2776 Mark Service For Release \u2728') {
 			when { 
 				expression { 
 					params.DESIGNATED_VERSION.trim().isEmpty() == true 
 				} 
 			}
-			steps {
-				echo "Within Golan with the following desiganted version: [${params.DESIGNATED_VERSION}]"
-			}			
-		}
-		/**
-		stage('\u2776 Mark Service For Release \u2728') {
  			failFast true
 			parallel {			
 				stage ('\u2776.\u2776 Mark echobe For Release \u2728') {	
@@ -113,7 +97,40 @@ pipeline {
 				}
 			}
 		}
-		*/
+		stage('\u2776 Mark Service For Designated Release \u2728') {
+			when { 
+				expression { 
+					params.DESIGNATED_VERSION.trim().isEmpty() == false 
+				} 
+			}
+ 			failFast true
+			parallel {			
+				stage ('\u2776.\u2776 Mark echobe For Designated Release \u2728') {	
+					steps {
+						build (
+							job: "echobe/${env.BRANCH_NAME}",
+							parameters: [
+								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
+								validatingString (name: 'DESIGNATED_VERSION', value: "${params.DESIGNATED_VERSION}"),
+                		],
+							wait: true
+						)
+					}
+				}
+				stage ('\u2776.\u2777 Mark echofe For Designated Release \u2728') {	
+					steps {
+						build (
+							job: "echofe/${env.BRANCH_NAME}",
+							parameters: [
+								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
+								validatingString (name: 'DESIGNATED_VERSION', value: "${params.DESIGNATED_VERSION}"),
+                		],
+							wait: true
+						)
+					}
+				}
+			}
+		}
 	}
 	post {
 		always {
