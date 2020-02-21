@@ -54,7 +54,7 @@ pipeline {
 			The desiganted (desired) version to be used.
 			Notes:
 			------
-			1. The input given must comply with 'Semantic Versioning 2.0.0' (https://semver.org/) with regards to: <MAJOR>.<MINOR>.<PATCH>
+			1. The input given must comply with 'Semantic Versioning 2.0.0' (https://semver.org) with regards to: <MAJOR>.<MINOR>.<PATCH>
 			2. The version supplied must be higher than any existing version (tag) in the target repo(s)
 			3. This will void the use of the 'TARGET_RECKON_SCOPE' and 'TARGET_RECKON_STAGE' parameters!
 			"""
