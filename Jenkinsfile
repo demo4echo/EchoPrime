@@ -39,6 +39,7 @@ pipeline {
 		choice (
 			name: 'TARGET_RECKON_STAGE',
 			choices: [
+				pipelineCommon.PARAMS_TARGET_RECKON_STAGE_OPTIONS[4],
 				pipelineCommon.PARAMS_TARGET_RECKON_STAGE_OPTIONS[3],
 				pipelineCommon.PARAMS_TARGET_RECKON_STAGE_OPTIONS[2],
 				pipelineCommon.PARAMS_TARGET_RECKON_STAGE_OPTIONS[1]
