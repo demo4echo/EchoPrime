@@ -17,6 +17,8 @@ pipeline {
 		timestamps()
 		
 		buildDiscarder(logRotator(numToKeepStr: pipelineCommon.OPTIONS_BUILD_DISCARDER_LOG_ROTATOR_NUM_TO_KEEP_STR))
+
+		parallelsAlwaysFailFast()
 	}
 	parameters {
 		choice (
@@ -68,7 +70,7 @@ pipeline {
 					params.DESIGNATED_VERSION.trim().isEmpty() == true 
 				} 
 			}
- 			failFast true
+//			failFast true
 			parallel {			
 				stage ('\u2776.\u2776 Mark echobe For Release \u2728') {	
 					steps {
@@ -78,7 +80,7 @@ pipeline {
 								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
 								string (name: 'TARGET_RECKON_SCOPE', value: "${params.TARGET_RECKON_SCOPE}"),
 								string (name: 'TARGET_RECKON_STAGE', value: "${params.TARGET_RECKON_STAGE}")
-                		],
+							],
 							wait: true
 						)
 					}
@@ -91,7 +93,7 @@ pipeline {
 								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
 								string (name: 'TARGET_RECKON_SCOPE', value: "${params.TARGET_RECKON_SCOPE}"),
 								string (name: 'TARGET_RECKON_STAGE', value: "${params.TARGET_RECKON_STAGE}")
-                		],
+							],
 							wait: true
 						)
 					}
@@ -104,7 +106,7 @@ pipeline {
 					params.DESIGNATED_VERSION.trim().isEmpty() == false 
 				} 
 			}
- 			failFast true
+//			failFast true
 			parallel {			
 				stage ('\u2777.\u2776 Mark echobe For Designated Release \u2728') {	
 					steps {
@@ -113,7 +115,7 @@ pipeline {
 							parameters: [
 								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
 								validatingString (name: 'DESIGNATED_VERSION', value: "${params.DESIGNATED_VERSION}"),
-                		],
+							],
 							wait: true
 						)
 					}
