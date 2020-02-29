@@ -1,5 +1,5 @@
 # EchoPrime
-_The top level module of the project/product._
+_The top level module of the project/product :trollface:_
 
 ## The modules/repositories of the project/product are:
 - **echobe**: A µs representing a backend app (e.g. one that would connect to a data store)
