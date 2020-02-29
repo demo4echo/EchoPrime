@@ -1,6 +1,7 @@
-# EchoPrime - Top Level Module
+# EchoPrime
+_The top level module of the project/product._
 
-## The modules/repositories of the project are:
+## The modules/repositories of the project/product are:
 - **echobe**: A µs representing a backend app (e.g. one that would connect to a data store)
 - **echofe**: A µs representing a frontend app (e.g. one that would be exposed outside the K8S cluster)
 - **EchoCommon**: The shared module of the project (“product”) with all Jenkins/Gradle shared logic
@@ -11,5 +12,4 @@
 - **JenkinsSharedLibrary**: Common Groovy variables and functions - used by the Pipeline
 
 ## TL;DR:
-
 The module deals with the product (in the sense of encapsulating all micro-services) logic itself. Currently is handles a top level Jenkins Pipeline that is able to trigger a parallel build (via Pipeline as well) of its subordinates micro-services.
