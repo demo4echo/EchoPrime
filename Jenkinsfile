@@ -71,7 +71,7 @@ pipeline {
 			}
 //			failFast true
 			parallel {			
-				stage ('\u2776.\u2776 Mark echobe For Release \u2728') {	
+				stage ('\u2776.\u2776 Rollout echobe For Release \u2728') {	
 					steps {
 						build (
 							job: "echobe/${env.BRANCH_NAME}",
@@ -84,7 +84,7 @@ pipeline {
 						)
 					}
 				}
-				stage ('\u2776.\u2777 Mark echofe For Release \u2728') {	
+				stage ('\u2776.\u2777 Rollout echofe For Release \u2728') {	
 					steps {
 						build (
 							job: "echofe/${env.BRANCH_NAME}",
@@ -107,7 +107,7 @@ pipeline {
 			}
 //			failFast true
 			parallel {			
-				stage ('\u2777.\u2776 Mark echobe For Designated Release \u2728') {	
+				stage ('\u2777.\u2776 Rollout echobe For Designated Release \u2728') {	
 					steps {
 						build (
 							job: "echobe/${env.BRANCH_NAME}",
@@ -119,7 +119,7 @@ pipeline {
 						)
 					}
 				}
-				stage ('\u2777.\u2777 Mark echofe For Designated Release \u2728') {	
+				stage ('\u2777.\u2777 Rollout echofe For Designated Release \u2728') {	
 					steps {
 						build (
 							job: "echofe/${env.BRANCH_NAME}",
