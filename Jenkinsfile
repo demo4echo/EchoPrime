@@ -63,7 +63,7 @@ pipeline {
 		)
 	}	
 	stages {
-		stage('\u2776 Mark Service For Release \u2728') {
+		stage('\u2776 Rollout Service For Release \u2728') {
 			when { 
 				expression { 
 					params.DESIGNATED_VERSION.trim().isEmpty() == true 
@@ -99,7 +99,7 @@ pipeline {
 				}
 			}
 		}
-		stage('\u2777 Mark Service For Designated Release \u2728') {
+		stage('\u2777 Rollout Service For Designated Release \u2728') {
 			when { 
 				expression { 
 					params.DESIGNATED_VERSION.trim().isEmpty() == false 
