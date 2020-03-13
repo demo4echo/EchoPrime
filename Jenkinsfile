@@ -67,17 +67,23 @@ pipeline {
 			defaultValue: pipelineCommon.PARAMS_DESIGNATED_VERSION_MESSAGE_DEFAULT_VALUE,
 			description: 'If applicable (and only for designated version), place a message that will be attached to the designated version (e.g. a customer name)'
 		)
+		booleanParam (
+			name: 'PUBLISH_LATEST_ARTIFACTS',
+			defaultValue: pipelineCommon.PARAMS_PUBLISH_LATEST_ARTIFACTS_DEFAULT_VALUE,
+			description: 'If selected (and applicable only for Jenkins4Release), publishes the latest artifacts to production/customer repositories'
+		)
 	}	
 	stages {
-		stage('\u2776 Rollout Service For Release \u2728') {
+		stage('\u2776 Mark Service For Release \u2728') {
 			when { 
-				expression { 
+				expression {
+					params.TARGET_JENKINSFILE_FILE_NAME != pipelineCommon.PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS[2] &&
 					params.DESIGNATED_VERSION.trim().isEmpty() == true 
 				} 
 			}
 //			failFast true
 			parallel {			
-				stage ('\u2776.\u2776 Rollout echobe For Release \u2728') {	
+				stage ('\u2776.\u2776 Mark echobe For Release \u2728') {	
 					steps {
 						build (
 							job: "echobe/${env.BRANCH_NAME}",
@@ -90,7 +96,7 @@ pipeline {
 						)
 					}
 				}
-				stage ('\u2776.\u2777 Rollout echofe For Release \u2728') {	
+				stage ('\u2776.\u2777 Mark echofe For Release \u2728') {	
 					steps {
 						build (
 							job: "echofe/${env.BRANCH_NAME}",
@@ -105,15 +111,16 @@ pipeline {
 				}
 			}
 		}
-		stage('\u2777 Rollout Service For Designated Release \u2728') {
+		stage('\u2777 Mark Service For Designated Release \u2728') {
 			when { 
 				expression { 
+					params.TARGET_JENKINSFILE_FILE_NAME != pipelineCommon.PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS[2] &&
 					params.DESIGNATED_VERSION.trim().isEmpty() == false 
 				} 
 			}
 //			failFast true
 			parallel {			
-				stage ('\u2777.\u2776 Rollout echobe For Designated Release \u2728') {	
+				stage ('\u2777.\u2776 Mark echobe For Designated Release \u2728') {	
 					steps {
 						build (
 							job: "echobe/${env.BRANCH_NAME}",
@@ -126,7 +133,7 @@ pipeline {
 						)
 					}
 				}
-				stage ('\u2777.\u2777 Rollout echofe For Designated Release \u2728') {	
+				stage ('\u2777.\u2777 Mark echofe For Designated Release \u2728') {	
 					steps {
 						build (
 							job: "echofe/${env.BRANCH_NAME}",
@@ -134,6 +141,40 @@ pipeline {
 								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
 								validatingString (name: 'DESIGNATED_VERSION', value: "${params.DESIGNATED_VERSION}"),
 								String (name: 'DESIGNATED_VERSION_MESSAGE', value: "${params.DESIGNATED_VERSION_MESSAGE}")
+							],
+							wait: true
+						)
+					}
+				}
+			}
+		}
+		stage('\u2778 Rollout Service \u2728') {
+			when { 
+				expression { 
+					params.TARGET_JENKINSFILE_FILE_NAME != pipelineCommon.PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS[2]
+				} 
+			}
+//			failFast true
+			parallel {			
+				stage ('\u2777.\u2776 Rollout echobe \u2728') {	
+					steps {
+						build (
+							job: "echobe/${env.BRANCH_NAME}",
+							parameters: [
+								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
+								booleanParam (name: 'PUBLISH_LATEST_ARTIFACTS', value: "${params.PUBLISH_LATEST_ARTIFACTS}")
+							],
+							wait: true
+						)
+					}
+				}
+				stage ('\u2777.\u2777 Rollout echofe \u2728') {	
+					steps {
+						build (
+							job: "echofe/${env.BRANCH_NAME}",
+							parameters: [
+								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
+								booleanParam (name: 'PUBLISH_LATEST_ARTIFACTS', value: "${params.PUBLISH_LATEST_ARTIFACTS}")
 							],
 							wait: true
 						)
