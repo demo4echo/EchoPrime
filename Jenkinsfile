@@ -61,6 +61,11 @@ pipeline {
 			3. This will void the use of the 'TARGET_RECKON_SCOPE' and 'TARGET_RECKON_STAGE' parameters!
 			"""
 		)
+		string (
+			name: 'DESIGNATED_VERSION_MESSAGE',
+			defaultValue: pipelineCommon.PARAMS_DESIGNATED_VERSION_MESSAGE_DEFAULT_VALUE,
+			description: 'If applicable (and only for designated version), place a message that will be attached to the designated version (e.g. a customer name)'
+		)
 	}	
 	stages {
 		stage('\u2776 Rollout Service For Release \u2728') {
