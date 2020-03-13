@@ -120,6 +120,7 @@ pipeline {
 							parameters: [
 								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
 								validatingString (name: 'DESIGNATED_VERSION', value: "${params.DESIGNATED_VERSION}"),
+								String (name: 'DESIGNATED_VERSION_MESSAGE', value: "${params.DESIGNATED_VERSION_MESSAGE}")
 							],
 							wait: true
 						)
@@ -132,7 +133,8 @@ pipeline {
 							parameters: [
 								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
 								validatingString (name: 'DESIGNATED_VERSION', value: "${params.DESIGNATED_VERSION}"),
-                		],
+								String (name: 'DESIGNATED_VERSION_MESSAGE', value: "${params.DESIGNATED_VERSION_MESSAGE}")
+							],
 							wait: true
 						)
 					}
