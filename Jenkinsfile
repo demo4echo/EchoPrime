@@ -24,6 +24,7 @@ pipeline {
 		choice (
 			name: 'TARGET_JENKINSFILE_FILE_NAME',
 			choices: [
+				pipelineCommon.PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS[2],
 				pipelineCommon.PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS[1],
 				pipelineCommon.PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS[0]
 			],
