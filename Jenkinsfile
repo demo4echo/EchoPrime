@@ -205,6 +205,11 @@ pipeline {
 			echo 'I succeeeded!'
 			echo "From post actions => Echobe latest version is: [${env.X_EFRAT_ECHOBE_LATEST_VERSION_ENV_VAR}]"
 			echo "From post actions => Echofe latest version is: [${env.X_EFRAT_ECHOFE_LATEST_VERSION_ENV_VAR}]"
+
+			// TODO:
+			// 1. write the versions (and date) into a yaml file (in the repo) [releaseVersions.yaml]
+			// 2. add, commit and push this file to the remote
+			// 3. publish a suitable version (and message if applicable) on this repo (to track the file) - condition by PUBLISH_LATEST_ARTIFACTS
 		}
 		unstable {
 			echo 'I am unstable :/'
