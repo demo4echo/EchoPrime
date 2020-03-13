@@ -156,35 +156,42 @@ pipeline {
 			}
 //			failFast true
 			parallel {			
-				stage ('\u2777.\u2776 Rollout echobe \u2728') {	
+				stage ('\u2778.\u2776 Rollout echobe \u2728') {	
 					steps {
 						script {
 							// https://stackoverflow.com/questions/51103359/jenkins-pipeline-return-value-of-build-step
 							// https://javadoc.jenkins.io/plugin/workflow-support/org/jenkinsci/plugins/workflow/support/steps/build/RunWrapper.html
 							def buildObject = build (
-														job: "echobe/${env.BRANCH_NAME}",
-														parameters: [
-															string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
-															booleanParam (name: 'PUBLISH_LATEST_ARTIFACTS', value: "${params.PUBLISH_LATEST_ARTIFACTS}")
-														],
-														wait: true
-													)
+								job: "echobe/${env.BRANCH_NAME}",
+								parameters: [
+									string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
+									booleanParam (name: 'PUBLISH_LATEST_ARTIFACTS', value: "${params.PUBLISH_LATEST_ARTIFACTS}")
+								],
+								wait: true
+							)
 
 							env.X_EFRAT_ECHOBE_LATEST_VERSION_ENV_VAR = buildObject.getBuildVariables().X_EFRAT_ECHO_LATEST_VERSION_ENV_VAR
 							echo "Echobe latest version is: [${env.X_EFRAT_ECHOBE_LATEST_VERSION_ENV_VAR}]"
 						}
 					}
 				}
-				stage ('\u2777.\u2777 Rollout echofe \u2728') {	
+				stage ('\u2778.\u2777 Rollout echofe \u2728') {	
 					steps {
-						build (
-							job: "echofe/${env.BRANCH_NAME}",
-							parameters: [
-								string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
-								booleanParam (name: 'PUBLISH_LATEST_ARTIFACTS', value: "${params.PUBLISH_LATEST_ARTIFACTS}")
-							],
-							wait: true
-						)
+						script {
+														// https://stackoverflow.com/questions/51103359/jenkins-pipeline-return-value-of-build-step
+							// https://javadoc.jenkins.io/plugin/workflow-support/org/jenkinsci/plugins/workflow/support/steps/build/RunWrapper.html
+							def buildObject = build (
+								job: "echofe/${env.BRANCH_NAME}",
+								parameters: [
+									string (name: 'TARGET_JENKINSFILE_FILE_NAME', value: "${params.TARGET_JENKINSFILE_FILE_NAME}"),
+									booleanParam (name: 'PUBLISH_LATEST_ARTIFACTS', value: "${params.PUBLISH_LATEST_ARTIFACTS}")
+								],
+								wait: true
+							)
+
+							env.X_EFRAT_ECHOFE_LATEST_VERSION_ENV_VAR = buildObject.getBuildVariables().X_EFRAT_ECHO_LATEST_VERSION_ENV_VAR
+							echo "Echofe latest version is: [${env.X_EFRAT_ECHOFE_LATEST_VERSION_ENV_VAR}]"
+						}
 					}
 				}
 			}
@@ -197,6 +204,7 @@ pipeline {
 		success {
 			echo 'I succeeeded!'
 			echo "From post actions => Echobe latest version is: [${env.X_EFRAT_ECHOBE_LATEST_VERSION_ENV_VAR}]"
+			echo "From post actions => Echofe latest version is: [${env.X_EFRAT_ECHOFE_LATEST_VERSION_ENV_VAR}]"
 		}
 		unstable {
 			echo 'I am unstable :/'
