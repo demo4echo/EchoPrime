@@ -251,10 +251,8 @@ echofe-latest-info:
   versionName: ${env.X_EFRAT_ECHOFE_LATEST_VERSION_NAME_ENV_VAR}
   versionDateTime: ${env.X_EFRAT_ECHOFE_LATEST_VERSION_DATE_TIME_ENV_VAR}"""
 
-				println "The data of yamlDataAsStr is: [${yamlDataAsStr}]"
-
 				// Persist the information
-				persistReleaseVersions(yamlDataAsStr)
+				persistReleaseVersionsInformation(yamlDataAsStr)
 			}
 		}
 		unstable {
