@@ -73,6 +73,10 @@ pipeline {
 			description: 'If selected (and applicable only for Jenkins4Release), publishes the latest artifacts to production/customer repositories'
 		)
 	}	
+	environment {
+		// Obtain the access token Jenkins uses to connect to GitHub (using a Jenkins credentials ID) and put in in grgit special environment variable
+		GRGIT_USER = credentials('github-demo4echo-access-token-for-reckon-gradle-plugin-id')
+	}
 	stages {
 		stage('\u2776 setup \u2728') {
 			steps {
@@ -251,7 +255,7 @@ echofe-latest-info:
   versionName: ${env.X_EFRAT_ECHOFE_LATEST_VERSION_NAME_ENV_VAR}
   versionDateTime: ${env.X_EFRAT_ECHOFE_LATEST_VERSION_DATE_TIME_ENV_VAR}"""
 
-				// Persist the information
+				// Persist the information (and push to git)
 				persistReleaseVersionsInformation(yamlDataAsStr)
 			}
 		}
