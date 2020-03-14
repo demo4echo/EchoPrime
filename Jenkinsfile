@@ -206,12 +206,22 @@ pipeline {
 			echo "From post actions => Echobe latest version is: [${env.X_EFRAT_ECHOBE_LATEST_VERSION_ENV_VAR}]"
 			echo "From post actions => Echofe latest version is: [${env.X_EFRAT_ECHOFE_LATEST_VERSION_ENV_VAR}]"
 
-			// TODO:
-			// 1. write the versions (and date) into a yaml file (in the repo) [releaseVersions.yaml] via a new custom step => persistReleaseVersions
-			// 	put the file name in common properties file and load it into env in pipelineCommon.assimilateEnvironmentVariables()
-			//		thus it can be used both in the pipeline and in gradle (for item 2)
-			// 2. add, commit and push this file to the remote
-			// 3. publish a suitable version (and message if applicable) on this repo (to track the file) - condition by PUBLISH_LATEST_ARTIFACTS
+			script {
+				// TODO:
+				// 1. write the versions (and date) into a yaml file (in the repo) [releaseVersions.yaml] via a new custom step => persistReleaseVersions
+				// 	put the file name in common properties file and load it into env in pipelineCommon.assimilateEnvironmentVariables()
+				//		thus it can be used both in the pipeline and in gradle (for item 2)
+				// 2. add, commit and push this file to the remote
+				// 3. publish a suitable version (and message if applicable) on this repo (to track the file) - condition by PUBLISH_LATEST_ARTIFACTS
+				def yamlDataAsStr = """
+					echobe-latest-info:
+						version:
+						dateTime:
+					echofe-latest-info:
+						version:
+						dateTime:
+				"""
+			}
 		}
 		unstable {
 			echo 'I am unstable :/'
