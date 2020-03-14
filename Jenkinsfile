@@ -74,7 +74,31 @@ pipeline {
 		)
 	}	
 	stages {
-		stage('\u2776 Mark Service For Release \u2728') {
+		stage('\u2776 setup \u2728') {
+			steps {
+				//
+				// Verify this build should run (e.g. don't allow a replayed build) - this step should be the first step!
+				//
+//				validateBuildRun "${env.BUILD_TAG}"
+
+				sh 'echo User [`whoami`] is running within [`ps -hp $$ | awk \'{print $5}\'`] Shell on Node [$NODE_HOST_NAME_ENV_VAR]'
+				sh 'echo The following script is executing: [$0]'
+
+				sh 'echo JAVA_HOME value is: [$JAVA_HOME]'
+				sh 'echo PATH value is: [$PATH]'
+				sh 'echo PWD value is: [$PWD]'
+
+//				sh "mkdir -p /root/.docker && cp -ar ./${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}/.setup/.docker /root"
+//				sh "mkdir -p /root/.kube && cp -ar ./${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}/.setup/.kube /root"
+//				sh "mkdir -p /root/.gradle && cp -ar ./${env.COMMON_SUB_MODULE_FOLDER_NAME_ENV_VAR}/.setup/.gradle /root"
+
+				//
+				// Update build name and description (but in this case no need to add the version to the build name)
+				//
+				updateBuildInformation(false)
+			}
+		}
+		stage('\u2777 Mark Service For Release \u2728') {
 			when { 
 				expression {
 					params.TARGET_JENKINSFILE_FILE_NAME != pipelineCommon.PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS[2] &&
@@ -83,7 +107,7 @@ pipeline {
 			}
 //			failFast true
 			parallel {			
-				stage ('\u2776.\u2776 Mark echobe For Release \u2728') {	
+				stage ('\u2777.\u2776 Mark echobe For Release \u2728') {	
 					steps {
 						build (
 							job: "echobe/${env.BRANCH_NAME}",
@@ -96,7 +120,7 @@ pipeline {
 						)
 					}
 				}
-				stage ('\u2776.\u2777 Mark echofe For Release \u2728') {	
+				stage ('\u2777.\u2777 Mark echofe For Release \u2728') {	
 					steps {
 						build (
 							job: "echofe/${env.BRANCH_NAME}",
@@ -111,7 +135,7 @@ pipeline {
 				}
 			}
 		}
-		stage('\u2777 Mark Service For Designated Release \u2728') {
+		stage('\u2778 Mark Service For Designated Release \u2728') {
 			when { 
 				expression { 
 					params.TARGET_JENKINSFILE_FILE_NAME != pipelineCommon.PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS[2] &&
@@ -120,7 +144,7 @@ pipeline {
 			}
 //			failFast true
 			parallel {			
-				stage ('\u2777.\u2776 Mark echobe For Designated Release \u2728') {	
+				stage ('\u2778.\u2776 Mark echobe For Designated Release \u2728') {	
 					steps {
 						build (
 							job: "echobe/${env.BRANCH_NAME}",
@@ -133,7 +157,7 @@ pipeline {
 						)
 					}
 				}
-				stage ('\u2777.\u2777 Mark echofe For Designated Release \u2728') {	
+				stage ('\u2778.\u2777 Mark echofe For Designated Release \u2728') {	
 					steps {
 						build (
 							job: "echofe/${env.BRANCH_NAME}",
@@ -148,7 +172,7 @@ pipeline {
 				}
 			}
 		}
-		stage('\u2778 Rollout Service \u2728') {
+		stage('\u2779 Rollout Service \u2728') {
 			when { 
 				expression { 
 					params.TARGET_JENKINSFILE_FILE_NAME == pipelineCommon.PARAMS_TARGET_JENKINSFILE_FILE_NAME_OPTIONS[2]
@@ -156,7 +180,7 @@ pipeline {
 			}
 //			failFast true
 			parallel {			
-				stage ('\u2778.\u2776 Rollout echobe \u2728') {	
+				stage ('\u2779.\u2776 Rollout echobe \u2728') {	
 					steps {
 						script {
 							// https://stackoverflow.com/questions/51103359/jenkins-pipeline-return-value-of-build-step
@@ -180,7 +204,7 @@ pipeline {
 						}
 					}
 				}
-				stage ('\u2778.\u2777 Rollout echofe \u2728') {	
+				stage ('\u2779.\u2777 Rollout echofe \u2728') {	
 					steps {
 						script {
 							// https://stackoverflow.com/questions/51103359/jenkins-pipeline-return-value-of-build-step
