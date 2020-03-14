@@ -215,11 +215,11 @@ pipeline {
 				// 3. publish a suitable version (and message if applicable) on this repo (to track the file) - condition by PUBLISH_LATEST_ARTIFACTS
 				def yamlDataAsStr = """
 					echobe-latest-info:
-						version:
-						dateTime:
+						versionName:
+						versionDateTime:
 					echofe-latest-info:
-						version:
-						dateTime:
+						versionName:
+						versionDateTime:
 				"""
 			}
 		}
