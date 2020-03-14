@@ -170,8 +170,13 @@ pipeline {
 								wait: true
 							)
 
-							env.X_EFRAT_ECHOBE_LATEST_VERSION_ENV_VAR = buildObject.getBuildVariables().X_EFRAT_ECHO_LATEST_VERSION_ENV_VAR
-							echo "Echobe latest version is: [${env.X_EFRAT_ECHOBE_LATEST_VERSION_ENV_VAR}]"
+							// Keep version name
+							env.X_EFRAT_ECHOBE_LATEST_VERSION_NAME_ENV_VAR = buildObject.getBuildVariables().X_EFRAT_ECHO_LATEST_VERSION_NAME_ENV_VAR
+							echo "Echobe latest version name is: [${env.X_EFRAT_ECHOBE_LATEST_VERSION_NAME_ENV_VAR}]"
+
+							// Keep version date-time
+							env.X_EFRAT_ECHOBE_LATEST_VERSION_DATE_TIME_ENV_VAR = buildObject.getBuildVariables().X_EFRAT_ECHO_LATEST_VERSION_DATE_TIME_ENV_VAR
+							echo "Echobe latest version date-time is: [${env.X_EFRAT_ECHOBE_LATEST_VERSION_DATE_TIME_ENV_VAR}]"
 						}
 					}
 				}
@@ -189,8 +194,13 @@ pipeline {
 								wait: true
 							)
 
-							env.X_EFRAT_ECHOFE_LATEST_VERSION_ENV_VAR = buildObject.getBuildVariables().X_EFRAT_ECHO_LATEST_VERSION_ENV_VAR
-							echo "Echofe latest version is: [${env.X_EFRAT_ECHOFE_LATEST_VERSION_ENV_VAR}]"
+							// Keep version name
+							env.X_EFRAT_ECHOFE_LATEST_VERSION_NAME_ENV_VAR = buildObject.getBuildVariables().X_EFRAT_ECHO_LATEST_VERSION_NAME_ENV_VAR
+							echo "Echofe latest version name is: [${env.X_EFRAT_ECHOFE_LATEST_VERSION_NAME_ENV_VAR}]"
+
+							// Keep version date-time
+							env.X_EFRAT_ECHOFE_LATEST_VERSION_DATE_TIME_ENV_VAR = buildObject.getBuildVariables().X_EFRAT_ECHO_LATEST_VERSION_DATE_TIME_ENV_VAR
+							echo "Echofe latest version date-time is: [${env.X_EFRAT_ECHOFE_LATEST_VERSION_DATE_TIME_ENV_VAR}]"
 						}
 					}
 				}
@@ -203,24 +213,23 @@ pipeline {
 		}
 		success {
 			echo 'I succeeeded!'
-			echo "From post actions => Echobe latest version is: [${env.X_EFRAT_ECHOBE_LATEST_VERSION_ENV_VAR}]"
-			echo "From post actions => Echofe latest version is: [${env.X_EFRAT_ECHOFE_LATEST_VERSION_ENV_VAR}]"
 
 			script {
 				// TODO:
 				// 1. write the versions (and date) into a yaml file (in the repo) [releaseVersions.yaml] via a new custom step => persistReleaseVersions
-				// 	put the file name in common properties file and load it into env in pipelineCommon.assimilateEnvironmentVariables()
-				//		thus it can be used both in the pipeline and in gradle (for item 2)
 				// 2. add, commit and push this file to the remote
-				// 3. publish a suitable version (and message if applicable) on this repo (to track the file) - condition by PUBLISH_LATEST_ARTIFACTS
+				// 3. publish a suitable version/tag (and message if applicable) on this repo (to track the file) - condition by PUBLISH_LATEST_ARTIFACTS
 				def yamlDataAsStr = """
 					echobe-latest-info:
-						versionName:
-						versionDateTime:
+						versionName: ${env.X_EFRAT_ECHOBE_LATEST_VERSION_NAME_ENV_VAR}
+						versionDateTime: ${env.X_EFRAT_ECHOBE_LATEST_VERSION_DATE_TIME_ENV_VAR}
 					echofe-latest-info:
-						versionName:
-						versionDateTime:
+						versionName: ${env.X_EFRAT_ECHOFE_LATEST_VERSION_NAME_ENV_VAR}
+						versionDateTime: ${env.X_EFRAT_ECHOFE_LATEST_VERSION_DATE_TIME_ENV_VAR}
 				"""
+
+				// Persist the information
+				persistReleaseVersions(yamlDataAsStr)
 			}
 		}
 		unstable {
