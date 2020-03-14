@@ -252,6 +252,8 @@ pipeline {
 						versionDateTime: ${env.X_EFRAT_ECHOFE_LATEST_VERSION_DATE_TIME_ENV_VAR}
 				"""
 
+				println "The data of yamlDataAsStr is: [${yamlDataAsStr}]"
+
 				// Persist the information
 				persistReleaseVersions(yamlDataAsStr)
 			}
