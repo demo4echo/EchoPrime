@@ -1,6 +1,3 @@
-@Grab('org.ajoberstar.grgit:grgit-core:4.0.1') // version was 4.0.+
-import org.ajoberstar.grgit.Grgit
-
 // We can omit this one as we marked the shared library to load implicitly
 @Library('EchoSharedLibrary') _
 
@@ -259,68 +256,7 @@ echofe-latest-info:
   versionDateTime: ${env.X_EFRAT_ECHOFE_LATEST_VERSION_DATE_TIME_ENV_VAR}"""
 
 				// Persist the information (and push to git)
-//				persistReleaseVersionsInformation(yamlDataAsStr)
-
-				// Persist (and update) the yaml file into the root of the repository
-			//	writeYaml file: "${env.WORKSPACE}/${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME}", data: releaseVersionsDataAsYamlStr, overwrite: true
-				writeYaml file: pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME, data: releaseVersionsDataAsYamlStr, overwrite: true
-
-			//	sleep 300
-				def currentDirectory = pwd()
-				echo "Current directory is: [${currentDirectory}]"
-				echo "Workspace directory is: [${env.WORKSPACE}]"
-
-				//
-				// Work with the VCS (git) via the grgit library
-				//
-
-				// Init repo
-			//	def grgit = Grgit.open(currentDir: env.WORKSPACE)
-				def grgit = Grgit.open(dir: env.WORKSPACE)
-
-				// Stage changes
-			//	grgit.add(patterns: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
-				grgit.add(patterns: ['.'])
-
-				// Commit changes
-				grgit.commit(message: "Updating ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file", paths: [pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME])
-
-				//
-				// Create a suitable tag to mark this update
-				//
-				def tagName,tagMessage
-
-				// If we have a designated version - use it
-				if (params.DESIGNATED_VERSION != null && params.DESIGNATED_VERSION.trim().isEmpty() == false) {
-					tagName = params.DESIGNATED_VERSION
-				}
-				// Else fallback to the current date (can't use date-time (java.time.LocalDateTime().now()) since it contains ":" which isn't allowed in tag name)
-				else {
-					def currentDate = java.time.LocalDate.now()
-					echo "No designated version observed, defaulting to current date: [${currentDate}]"
-					tagName = currentDate
-				}
-
-				// If we have a designated message - use it
-				if (params.DESIGNATED_VERSION_MESSAGE != null && params.DESIGNATED_VERSION_MESSAGE.trim().isEmpty() == false) {
-					tagMessage = params.DESIGNATED_VERSION_MESSAGE
-				}
-				// Else fallback to a pre-defined message
-				else {
-					def fallbackMessage = "Markup tag for ${pipelineCommon.CONST_RELEASE_VERSIONS_FILE_NAME} file"
-					echo "No designated version message observed, defaulting to: [${fallbackMessage}]"
-					tagMessage = fallbackMessage
-				}
-
-				// Create the annotated tag (replace if needed)
-				grgit.tag.add(name: tagName, message: tagMessage, force: true)
-
-				// Setup authentication
-				echo "The GRGIT token is: [${env.GRGIT_USER}]"
-				System.properties.'org.ajoberstar.grgit.auth.username' = env.GRGIT_USER 
-
-				// Push everything to the remote repo
-				grgit.push(tags: true, remote: env.GIT_URL, force: true)
+				persistReleaseVersionsInformation(yamlDataAsStr)
 			}
 		}
 		unstable {
