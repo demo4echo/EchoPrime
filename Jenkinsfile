@@ -256,8 +256,10 @@ echofe-latest-info:
   versionDateTime: ${env.X_EFRAT_ECHOFE_LATEST_VERSION_DATE_TIME_ENV_VAR}"""
 
 				// Persist the information (and push to git)
-				persistReleaseVersionsInformation(yamlDataAsStr)
+//				persistReleaseVersionsInformation(yamlDataAsStr)
 			}
+
+			persistReleaseVersionsInformation('hello: tiran')
 		}
 		unstable {
 			echo 'I am unstable :/'
