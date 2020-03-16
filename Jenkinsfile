@@ -247,8 +247,11 @@ pipeline {
 				// 1. write the versions (and date) into a yaml file (in the repo) [releaseVersions.yaml] via a new custom step => persistReleaseVersions
 				// 2. add, commit and push this file to the remote
 				// 3. publish a suitable version/tag (and message if applicable) on this repo (to track the file) - condition by PUBLISH_LATEST_ARTIFACTS
+				def currentDateTime = java.time.LocalDateTime.now()
 				def yamlDataAsStr = 
-"""echobe-latest-info:
+"""timestamp-markup:
+  marking: ${currentDateTime}
+echobe-latest-info:
   versionName: ${env.X_EFRAT_ECHOBE_LATEST_VERSION_NAME_ENV_VAR}
   versionDateTime: ${env.X_EFRAT_ECHOBE_LATEST_VERSION_DATE_TIME_ENV_VAR}
 echofe-latest-info:
